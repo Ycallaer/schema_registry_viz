@@ -7,8 +7,11 @@ import yaml
 class SchemaRegistrySetting(BaseModel):
     url: str
     port: int
+    protocol: str
+
     class Config:
         env_prefix = "POSTGRES_"
+
 
 class Settings(BaseModel):
     schema_registry: SchemaRegistrySetting
