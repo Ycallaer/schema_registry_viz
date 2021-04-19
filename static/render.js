@@ -2,21 +2,22 @@ var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
 var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) {
-        return d.id;
-    }))
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
 d3.json("static/graph.json", function (error, graph) {
     if (error) throw error;
 
-    var link = svg.append("g")
-        .attr("class", "links")
-        .selectAll("line")
-        .data(graph.links)
-        .enter().append("line");
+  var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(graph.links)
+    .enter().append("line")
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
     var node = svg.append("g")
         .attr("class", "nodes")
@@ -28,6 +29,21 @@ d3.json("static/graph.json", function (error, graph) {
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
+
+  var circles = node.append("circle")
+      .attr("r", 5)
+      .attr("fill", function(d) { return color(d.group); })
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+  var lables = node.append("text")
+      .text(function(d) {
+        return d.id;
+      })
+      .attr('x', 6)
+      .attr('y', 3);
 
     node.append("title")
         .text(function (d) {
@@ -56,14 +72,11 @@ d3.json("static/graph.json", function (error, graph) {
                 return d.target.y;
             });
 
-        node
-            .attr("cx", function (d) {
-                return d.x;
-            })
-            .attr("cy", function (d) {
-                return d.y;
-            });
-    }
+    node
+        .attr("transform", function(d) {
+          return "translate(" + d.x + "," + d.y + ")";
+        })
+  }
 });
 
 function dragstarted(d) {
