@@ -7,3 +7,4 @@ pyyaml==5.4.1
 networkx==2.5.1
 matplotlib==3.4.1
 pytest==6.2.3
+aiofiles==0.6.0
