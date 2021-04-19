@@ -2,3 +2,4 @@
 - schema_registry:
     url: localhost
     port: 8081
+    protocol: http
