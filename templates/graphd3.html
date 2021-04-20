@@ -29,11 +29,11 @@ var svg = d3.select("svg"),
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("link", d3.forceLink().id(function(d) { return d.id; }).distance(180))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-d3.json("static/graph.json", function(error, graph) {
+d3.json("{{ url_for('static',path='.') }}/{{ graph_id }}.json", function(error, graph) {
   if (error) throw error;
 
   var link = svg.append("g")

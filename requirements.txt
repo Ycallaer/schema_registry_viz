@@ -1,4 +1,4 @@
-fastapi==0.49.0
+fastapi==0.63.0
 uvicorn==0.11.3
 gunicorn==20.0.4
 requests==2.22.0
@@ -8,3 +8,4 @@ networkx==2.5.1
 matplotlib
 pytest==6.2.3
 aiofiles==0.6.0
+jinja2
