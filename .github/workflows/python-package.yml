@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.7, 3.8]
 
     steps:
     - uses: actions/checkout@v2
@@ -36,5 +36,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
+        ls -l /home/runner/work/schema_registry_viz/
+        ls -l /home/runner/work/schema_registry_viz/schema_registry_viz/
         PYTHONPATH=${PYTHONPATH}:/home/runner/work/schema_registry_viz/
         pytest
