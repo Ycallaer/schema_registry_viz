@@ -36,5 +36,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        PYTHONPATH=${PYTHONPATH}:/home/runner/work/schema_registry_viz/schema_registry_viz
+        PYTHONPATH=${PYTHONPATH}:/home/runner/work/schema_registry_viz/
         pytest
