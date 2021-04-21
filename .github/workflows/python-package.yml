@@ -40,4 +40,4 @@ jobs:
         echo "second ls"
         ls -l /home/runner/work/schema_registry_viz/schema_registry_viz/
         export PYTHONPATH=${PYTHONPATH}:/home/runner/work/schema_registry_viz/schema_registry_viz/
-        pytest --cov-report --cov=schema_reg_viz
+        pytest --cov-report term --cov=schema_reg_viz
