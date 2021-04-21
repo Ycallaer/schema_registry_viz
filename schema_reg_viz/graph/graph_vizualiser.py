@@ -3,16 +3,14 @@ import requests
 from schema_reg_viz.schema_registry.schema_reg import SchemaRegistry
 import networkx as nx
 from networkx.readwrite import json_graph
-import matplotlib.pyplot as plt
 import json
 import traceback
 from schema_reg_viz.json_logging.json_logger import JsonLogging
+import uuid
 
-logapp = JsonLogging()
-logger = logapp.get_logger()
+log_app = JsonLogging()
+logger = log_app.get_logger()
 
-
-# cert_file_path = "/home/yves/PersonalProjects/schema_registry_viz-master/schema_reg_viz/certificates/schema0.certificate.pem"
 
 class MissingSubjectNameException(Exception):
     """
@@ -55,6 +53,8 @@ def viz_sr_topic(subject_name, sr_base_url):
     G = nx.Graph()
     versions = None
     subject = subject_name.subjectname
+    persist_uuid = uuid.uuid4() if subject_name.persist else None
+
     try:
         if len(subject) == 0:
             raise MissingSubjectNameException()
@@ -66,7 +66,8 @@ def viz_sr_topic(subject_name, sr_base_url):
                                       sr_protocol=sr.get_protocol())
 
             if versions.status_code != 200:
-                logger.error("No versions found for the given subject {}".format(subject_name), extra={"severity": "error"})
+                logger.error("No versions found for the given subject {}".format(subject_name),
+                             extra={"severity": "error"})
             else:
                 for version in json.loads(versions.text):
                     version_response = do_url_request(
@@ -82,20 +83,21 @@ def viz_sr_topic(subject_name, sr_base_url):
                                     G.add_edge(subject, ref["name"])
                                     G.add_node(ref["name"])
 
-        plt.subplot(121)
-        nx.draw_circular(G, with_labels=True, font_weight='bold', font_size=6)
-        plt.show()
-        plt.savefig('test.png')
 
         data = json_graph.node_link_data(G)
+        if persist_uuid is None:
+            return {"data": data, "uuid": ""}
+        else:
+            with open('static/' + str(persist_uuid) + '.json', 'w') as f:
+                json.dump(data, f, indent=4)
 
-        with open('graph.json', 'w') as f:
-            json.dump(data, f, indent=4)
+            return {"data": data, "uuid": persist_uuid}
+
     except MissingSubjectNameException:
         logger.error("An empty subject name was supplied. Aborting the process.", extra={"severity": "error"})
     except MissingCertFilePath:
-        logger.error("There was no valid certificate path supplied for HTTPS. Aborting the process", extra={"severity": "error"})
+        logger.error("There was no valid certificate path supplied for HTTPS. Aborting the process",
+                     extra={"severity": "error"})
     except Exception:
-        logger.error("Uncaught error detected. Aborting the process.",extra={"severity": "error"})
+        logger.error("Uncaught error detected. Aborting the process.", extra={"severity": "error"})
         traceback.print_exc()
-
