@@ -1,7 +1,9 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+
 from starlette.staticfiles import StaticFiles
-from starlette.responses import JSONResponse, FileResponse
+from starlette.templating import Jinja2Templates
+from starlette.responses import JSONResponse, HTMLResponse
 from starlette.middleware.cors import CORSMiddleware
 
 from schema_reg_viz.config.settings import get_settings
@@ -37,6 +39,7 @@ app.add_middleware(
 schema_registry_base_url = "{}://{}:{}".format(get_settings().schema_registry.protocol,
                                                get_settings().schema_registry.url, get_settings().schema_registry.port)
 app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/health")
@@ -52,9 +55,11 @@ async def viz_topic(viz_subject_name: VizTopicSubjectInput):
     return result
 
 
-@app.get("/show", response_class=FileResponse)
-async def viz_d3():
-    return FileResponse("static/graphd3.html")
+@app.get("/show/{graph_id}", response_class=HTMLResponse)
+async def viz_d3(request: Request, graph_id: str):
+    logger.info("Requesting visualisation for graph_id {}".format(graph_id),
+                extra={"severity": "info"})
+    return templates.TemplateResponse("graphd3.html", {"request": request, "graph_id": graph_id})
 
 
 # if __name__ == "__main__":

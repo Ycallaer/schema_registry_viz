@@ -1,5 +1,5 @@
 ---
 - schema_registry:
-    url: localhost
+    url: schema-registry
     port: 8081
     protocol: http
