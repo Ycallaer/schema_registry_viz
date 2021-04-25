@@ -10,6 +10,7 @@ from schema_reg_viz.config.settings import get_settings
 from schema_reg_viz.pydantic_models.pydantic_classes import VizTopicSubjectInput
 from schema_reg_viz.graph.graph_vizualiser import viz_sr_topic
 from schema_reg_viz.json_logging.json_logger import JsonLogging
+from schema_reg_viz.version import __version__
 
 logapp = JsonLogging()
 logger = logapp.get_logger()
@@ -43,7 +44,7 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/health")
 async def health():
-    return {"app_name": "schema registry viz", "app_version": "1.0.0", "app_type": "Fastapi"}
+    return {"app_name": "schema registry viz", "app_version": __version__, "app_type": "Fastapi"}
 
 
 @app.post("/viz_topic", response_class=JSONResponse)

@@ -1,0 +1,19 @@
+{
+    "directed": false,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [
+        {
+            "id": "google%2fprotobuf%2fdescriptor.proto"
+        },
+        {
+            "id": "google/protobuf/descriptor.proto"
+        }
+    ],
+    "links": [
+        {
+            "source": "google%2fprotobuf%2fdescriptor.proto",
+            "target": "google/protobuf/descriptor.proto"
+        }
+    ]
+}
