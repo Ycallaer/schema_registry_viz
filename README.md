@@ -1,5 +1,5 @@
 # Schema Registry Vizualiser
-FastApi application to visualise Schema Registry subject references.
+FastApi application to visualise Schema Registry subject references as a graph.
 
 ## Getting started
 You will need the following tools to get started:
@@ -13,7 +13,7 @@ You can run the program locally by starting the following script
 ```python
 python /home/yves/PersonalProjects/schema_registry_viz/schema_reg_viz/main.py
 ```
-The environment will by default go to `local`. You can override the environment by setting the environemnt variable
+The environment will by default go to `local`. You can override the environment by setting the environment variable
 `SR_VIZ_ENV`
 
 #### Local development: Endpoint call
