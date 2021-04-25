@@ -1,12 +1,12 @@
 import os
 import requests
-from schema_reg_viz.schema_registry.schema_reg import SchemaRegistry
+import uuid
 import networkx as nx
 from networkx.readwrite import json_graph
 import json
 import traceback
 from schema_reg_viz.json_logging.json_logger import JsonLogging
-import uuid
+from schema_reg_viz.schema_registry.schema_reg import SchemaRegistry
 
 log_app = JsonLogging()
 logger = log_app.get_logger()
@@ -82,7 +82,6 @@ def viz_sr_topic(subject_name, sr_base_url):
                                 for ref in result["references"]:
                                     G.add_edge(subject, ref["name"])
                                     G.add_node(ref["name"])
-
 
         data = json_graph.node_link_data(G)
         if persist_uuid is None:

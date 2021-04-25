@@ -22,10 +22,10 @@ If the application is running you can do a curl request as follows:
 curl -d'{"subjectname": "google%2fprotobuf%2fdescriptor.proto"}' -X POST http://localhost:8888/viz_topic
 ```
 This will return a JSON object containing the graph in a JSON structure, this can later 
-be used to visualise it in a tool like D3.JS.
+be used to visualise the data in a tool like D3.JS.
 
 However, an endpoint has been foreseen to visualise your structure within this app. You will need to call the same
-endpoint but you will need to supply the parameter `persist`. An example call would be:
+endpoint, but you will need to supply the parameter `persist`. An example call would be:
 ```bash
 curl -d'{"subjectname": "google%2fprotobuf%2fdescriptor.proto","persist":true}' -X POST http://localhost:8888/viz_topic
 ```
